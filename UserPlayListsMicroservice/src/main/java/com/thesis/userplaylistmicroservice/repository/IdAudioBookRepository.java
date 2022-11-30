@@ -8,3 +8,4 @@ import com.thesis.userplaylistmicroservice.library.audioBook.IdAudioBook;
 public interface IdAudioBookRepository extends JpaRepository<IdAudioBook, Integer> {
 
 }
+

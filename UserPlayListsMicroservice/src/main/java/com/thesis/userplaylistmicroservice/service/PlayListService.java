@@ -26,7 +26,8 @@ public class PlayListService {
 	
 	public PlayList createPlayList(PlayList playlist) {
 		List<PlayList> listAllPlayList = playListRepository.findAll();
-		List<PlayList> resultList = searchPlayList(listAllPlayList, String.valueOf(playlist.getNamePlayList()), SearchType.SEARCH_PER_TITLE);
+		List<PlayList> resultList = searchPlayList(listAllPlayList, String.valueOf(playlist.getNamePlayList()),
+				SearchType.SEARCH_PER_TITLE);
 		if(resultList.size() == 0) {
 			playListRepository.save(playlist);
 			System.out.println("PlayList creada");
