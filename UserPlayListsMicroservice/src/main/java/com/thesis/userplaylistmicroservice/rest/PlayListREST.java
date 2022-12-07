@@ -54,7 +54,7 @@ public class PlayListREST {
 
 	@RequestMapping(value = {"/searchByNamePlayList/{typeSearch}/{namePlayList}"} , method = RequestMethod.GET)
 	private ResponseEntity<List<PlayList>> searchAudioBookByNamePlayList (@PathVariable(name = "typeSearch") String typeSearch,@PathVariable(name = "namePlayList") String namePlayList) {
-		return ResponseEntity.ok(playListService.searchPlayLists(typeSearch,namePlayList));
+		return ResponseEntity.ok(playListService.searchPlayListsPerSearchType(typeSearch,namePlayList));
 	}
 	
 	@DeleteMapping("/deletePlayList/{idPlayList}")
@@ -63,21 +63,26 @@ public class PlayListREST {
 		return ResponseEntity.ok().build();
 	}
 	
-	@GetMapping ("/getAllPlayLists")
+	@RequestMapping(value = {"/searchAudioBooks/{idPlayList}"} , method = RequestMethod.GET)
+	private String searchAudioBooks (@PathVariable(name = "idPlayList") Integer idPlayList) {
+		return (playListService.getAllAudioBooks(idPlayList));
+	}
+	
+	@RequestMapping ("/getAllPlayLists")
 	private List<PlayList> listAllPlayLists(){
 		return playListService.getAllAudioBook();
 	}
 	
 	@RequestMapping(value = {"/searchById/{idPlayList}"} , method = RequestMethod.GET)
 	private ResponseEntity<Optional<PlayList>> searchPlayListById (@PathVariable(name = "idPlayList") Integer idPlayList ){
-		return ResponseEntity.ok(playListService.serchByIdPlayList(idPlayList));
+		return ResponseEntity.ok(playListService.searchByIdPlayList(idPlayList));
 	}
 	
-	@DeleteMapping("/deleteAudioBookToPlayList/{idPlayList}/{idAudioBook}")
+	/*@DeleteMapping("/deleteAudioBookToPlayList/{idPlayList}/{idAudioBook}")
 	private ResponseEntity<Void> deleteAudioBookToPlayList (@PathVariable(name = "idPlayList") Integer idPlayList, @PathVariable (name = "idAudioBook") String idAudioBook) {
 		playListService.deleteAudioBookToPlayList(idPlayList, idAudioBook);
 		return ResponseEntity.ok().build();
-	}
+	}*/
 	
 	
 

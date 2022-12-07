@@ -18,9 +18,9 @@ public class PlayList {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer idPlayList;
-	
 	private String namePlayList;
 	private String userId;
+	
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	private Set<IdAudioBook> idAudioBooks;
@@ -69,5 +69,6 @@ public class PlayList {
 	public void setIdAudioBooks(Set<IdAudioBook> idAudioBooks) {
 		this.idAudioBooks = idAudioBooks;
 	}
+	
 
 }

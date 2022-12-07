@@ -42,7 +42,7 @@ public class PlayListService {
 		return playListRepository.findAll();
 	}
 	
-	public Optional<PlayList> serchByIdPlayList(Integer idPlayList) {
+	public Optional<PlayList> searchByIdPlayList(Integer idPlayList) {
 		return playListRepository.findById(idPlayList);
 
 	}
@@ -66,7 +66,7 @@ public class PlayListService {
 			TitleFinder namePlayList = new TitleFinder();
 			return namePlayList.find(playLists, wordToSearch);
 		
-		case SERCH_PER_USER:
+		case SEARCH_PER_USER:
 			
 			UserFinder userPlayList = new UserFinder();
 			return userPlayList.find(playLists, wordToSearch);
@@ -77,7 +77,7 @@ public class PlayListService {
 
 	}
 	
-	public List<PlayList> searchPlayLists(String searchType,String wordToSearch) {
+	public List<PlayList> searchPlayListsPerSearchType(String searchType,String wordToSearch) {
 		
 		List<PlayList> listAllAudioBook = playListRepository.findAll();
 		switch (searchType) {
@@ -88,7 +88,7 @@ public class PlayListService {
 		
 		case "SEARCH_PER_USER":
 		
-			return this.searchPlayList(listAllAudioBook, wordToSearch, SearchType.SERCH_PER_USER);
+			return this.searchPlayList(listAllAudioBook, wordToSearch, SearchType.SEARCH_PER_USER);
 
 		default:
 			return null;
@@ -96,7 +96,7 @@ public class PlayListService {
 	}
 	
 	public IdAudioBook addAudioBook(Integer idPlayList, IdAudioBook audioBookList) {
-		PlayList playList = this.serchByIdPlayList(idPlayList).orElse(null);
+		PlayList playList = this.searchByIdPlayList(idPlayList).orElse(null);
 		Set<IdAudioBook> audioBooks = playList.getIdAudioBooks();
 		audioBooks.add(audioBookList);
 		audioBookRepository.save(audioBookList);
@@ -111,7 +111,7 @@ public class PlayListService {
 	
 	
 	public void deleteAudioBookToPlayList(Integer idPlayList, String idAudioBook) {
-		PlayList playList = this.serchByIdPlayList(idPlayList).orElse(null);
+		PlayList playList = this.searchByIdPlayList(idPlayList).orElse(null);
 		Set<IdAudioBook> audioBooks = playList.getIdAudioBooks();
 		IdAudioBook resultIdAudioBook = null;
 		for (IdAudioBook idAudioBookTarget : audioBooks) {
@@ -123,5 +123,19 @@ public class PlayListService {
 		audioBookRepository.delete(resultIdAudioBook);
 		playList.setIdAudioBooks(audioBooks);
 		playListRepository.save(playList);
+	}
+	
+	public String getAllAudioBooks(Integer idPlayList) {
+		PlayList playList = this.searchByIdPlayList(idPlayList).orElse(null);
+		System.out.println("playlist" + playList);
+	    String result = "";
+		
+
+		for (IdAudioBook idAudioBook : playList.getIdAudioBooks()) {
+			result += idAudioBook.getIdAudioBook() + ",";
+				
+		}
+		result = result.substring(0,result.length()-1);
+		return result;
 	}
 }
